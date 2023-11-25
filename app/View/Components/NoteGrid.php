@@ -15,7 +15,6 @@ class NoteGrid extends Component
     public function __construct(
         public string $user,
         public string $content,
-        public string $left,
     )
     {
         //

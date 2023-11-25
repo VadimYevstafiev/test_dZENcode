@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\CreateNoteRequest;
 use App\Models\Note;
+use App\Models\User;
 use App\Repositories\Contracts\NoteRepositoryContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -17,28 +19,20 @@ class NoteRepository implements NoteRepositoryContract
     protected array $pagResult;
     // public function __construct(protected ImageRepositoryContract $imageRepository){}
 
-    // public function create(CreateProductRequest $request): Product|false
-    // {
-    //     try {
-    //         DB::beginTransaction();
-
-    //         $data = $this->formatRequestData($request);
-    //         $data['attributes'] = $this->addSlugToAttributes($data['attributes']);
-    //         ksort($data['attributes']);
-    //         $product = $request->get('is_common', false)
-    //             ? Product::create($data['attributes'])
-    //             : auth()->user()->products()->create($data['attributes']);
-    //         $this->setProductData($product, $data);
-
-    //         DB::commit();
-
-    //         return $product;
-    //     } catch (\Exception $exception) {
-    //         DB::rollBack();
-    //         logs()->warning($exception);
-    //         return false;
-    //     }
-    // }
+    public function create(CreateNoteRequest $request): bool
+    {
+        try {
+            DB::beginTransaction();
+            $fields = $this->formatRequestData($request);
+            Note::create($fields);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            logs()->warning($exception);
+            return false;
+        }
+    }
 
     public function paginate(int $perPage, Request $request): LengthAwarePaginator
     {
@@ -63,6 +57,7 @@ class NoteRepository implements NoteRepositoryContract
     protected function getNote(Note $note, int $left): void
     {
         $this->pagResult[] = [
+            'id' => $note->id,
             'user' => $note->author->user_name,
             'content' => $note->content,
             'left' => $left
@@ -75,11 +70,25 @@ class NoteRepository implements NoteRepositoryContract
         }
     }
 
-    protected function formatRequestData(CreateProductRequest|UpdateProductRequest $request): array
+    public function formatCreateData(Request $request): array|null
     {
+        $id = array_key_first($request->all());
+        if (!$id) return null;
+        $parent = Note::where('id', $id)->with('author')->first();
         return [
-            'attributes' => collect($request->validated())->except(['categories'])->toArray(),
-            'categories' => $request->get('categories', [])
+            'id' => $parent->id,
+            'user' => $parent->author->user_name,
+            'content' => $parent->content,
+        ];
+    }
+
+    protected function formatRequestData(CreateNoteRequest $request): array
+    {
+        $data = $request->validated();
+        return [
+            'author_id' => User::where('user_name', $data['user_name'])->first()->id,
+            'parent_id' => $data['parent_id'],
+            'content' => $data['content'],
         ];
     }
 
