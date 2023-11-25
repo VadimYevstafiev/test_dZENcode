@@ -19,34 +19,7 @@ class NoteSeeder extends Seeder
         $count = 25;
         Note::factory()->create();
         for ($i = 1; $i < $count; $i++) {
-            Note::factory()->withParent(mt_rand(0, ($i - 1)))->create();
+            Note::factory()->withParent(mt_rand(1, $i))->create();
         }
-
-
-        // if (Note::all()->count() === 0) {
-
-        // }
-
-
-
-
-        // Note::factory($count)->create()->each(function($item, $i)  {
-        //     if (mt_rand(0,1)) {
-        //         $item->whithParent(mt_rand(0, $i));
-        //     }
-        // });
-
-
-        // dd();
-        
-        // $i = 0;
-        // echo '$i = {$i} '  . $i . '/n/n';
-        // foreach(Note::all() as $item) {
-        //     var_dump($item);
-        //     if (mt_rand(0,1)) {
-        //         $item->whithParent(mt_rand(0, $i));
-        //     }
-        //     $i++;
-        // }
     }
 }

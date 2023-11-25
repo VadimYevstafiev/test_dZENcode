@@ -29,11 +29,16 @@ class Note extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Note::class);
+        return $this->belongsTo(Note::class, 'parent_id');
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class, 'parent_id')->with('author');
     }
 
     public function childs(): HasMany
     {
-        return $this->hasMany(Note::class);
+        return $this->hasMany(Note::class, 'parent_id')->with('author', 'notes');
     }
 }
