@@ -58,12 +58,17 @@ class NoteRepository implements NoteRepositoryContract
                 $key = 'desc';
                 break;
         }
-        $heads = Note::whereNull('parent_id')
+        $items = Note::whereNull('parent_id')
             ->join('users', 'notes.author_id', '=', 'users.id')
             ->select( 'users.user_name', 'users.email', 'notes.created_at')
             ->orderBy($column, $key)
             ->paginate($perPage);
-        return array($heads, $id);
+        $heads = [
+            'User Name' => ['11', '12'],
+            'Email' => ['21', '22'],
+            'Created at' => ['31', '32']
+        ];
+        return array($heads, $items, $id);
     }
 
     public function paginate(int $perPage, Request $request): LengthAwarePaginator

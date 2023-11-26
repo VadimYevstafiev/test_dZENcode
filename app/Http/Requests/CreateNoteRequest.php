@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\CheckCaptcha;
+use App\Rules\CheckContent;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateNoteRequest extends FormRequest
@@ -26,7 +27,7 @@ class CreateNoteRequest extends FormRequest
             'user_name' => ['required', 'string', "exists:App\Models\User,user_name"],
             'email' => ['required', 'string', "exists:App\Models\User,email"],
             'home_page' => ['nullable', 'string'],
-            'content' => ['required', 'string'],
+            'content' => ['required', 'string',  new CheckContent],
             'parent_id' => ['nullable', 'string', "exists:App\Models\Note,id"],
             'g-recaptcha-response' => ['required', new CheckCaptcha],
             

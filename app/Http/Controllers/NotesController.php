@@ -11,9 +11,9 @@ class NotesController extends Controller
 {
     public function index(Request $request, NoteRepositoryContract $repository)
     {
-        list($heads, $id) = $repository->getHeads(5, $request);
+        list($heads, $items, $id) = $repository->getHeads(5, $request);
 
-        return view('index', compact('heads', 'id'));
+        return view('index', compact('heads', 'items', 'id'));
     }
 
     public function notes(Request $request, NoteRepositoryContract $repository)
