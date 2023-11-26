@@ -13,6 +13,8 @@ interface NoteRepositoryContract
 {
     public function create(CreateNoteRequest $request):bool;
 
+    public function getHeads(int $perPage, Request $request): array;
+
     public function paginate(int $perPage, Request $request): LengthAwarePaginator;
 
     public function formatCreateData(Request $request): array|null;

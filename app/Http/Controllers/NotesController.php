@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class NotesController extends Controller
 {
+    public function index(Request $request, NoteRepositoryContract $repository)
+    {
+        list($heads, $id) = $repository->getHeads(5, $request);
+
+        return view('index', compact('heads', 'id'));
+    }
+
     public function notes(Request $request, NoteRepositoryContract $repository)
     {
         $notes = $repository->paginate(5, $request);

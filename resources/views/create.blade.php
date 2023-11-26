@@ -53,6 +53,7 @@
 
                 <div class="mb-4">
                         <div class="g-recaptcha" data-sitekey="6Le3bRwpAAAAAJsfzMtyip4d3weLlTRaVUuUyyCM"></div>
+                        <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
                 </div>
 
                 <x-button action="submit" type="button" class="w-full m-0 font-bold">

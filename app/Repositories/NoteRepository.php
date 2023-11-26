@@ -34,6 +34,38 @@ class NoteRepository implements NoteRepositoryContract
         }
     }
 
+    public function getHeads(int $perPage, Request $request): array
+    {   
+        $params = $request->all();
+        $id = empty($params) ? 11 : array_key_first($params);
+        list($column, $key) = str_split($id);
+        switch($column) {
+            case 1:
+                $column = 'users.user_name';
+                break;
+            case 2:
+                $column = 'users.email';
+                break;
+            case 3:
+                $column = 'notes.created_at';
+                break;
+        }
+        switch($key) {
+            case 1:
+                $key = 'asc';
+                break;
+            case 2:
+                $key = 'desc';
+                break;
+        }
+        $heads = Note::whereNull('parent_id')
+            ->join('users', 'notes.author_id', '=', 'users.id')
+            ->select( 'users.user_name', 'users.email', 'notes.created_at')
+            ->orderBy($column, $key)
+            ->paginate($perPage);
+        return array($heads, $id);
+    }
+
     public function paginate(int $perPage, Request $request): LengthAwarePaginator
     {
         $notes = Note::whereNull('parent_id')
