@@ -29,7 +29,7 @@ class NoteFactory extends Factory
     {
         return $this->state(function(array $attributes) use ($parent_id) {
             return [
-               'parent_id' => (mt_rand(0,4)) ? $parent_id : null
+               'parent_id' => (mt_rand(0,2)) ? $parent_id : null
             ];
         });
     }

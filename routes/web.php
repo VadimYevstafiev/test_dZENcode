@@ -32,8 +32,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function() {
-    Route::get('/index', [NotesController::class, 'index'])->name('index');
+    Route::get('/index/{page?}/{id?}', [NotesController::class, 'index'])->name('index');
     Route::get('/notes', [NotesController::class, 'notes'])->name('notes');
     Route::get('/create', [NotesController::class, 'create'])->name('create');
-    Route::post('/store', [NotesController::class, 'store'])->name('store');
 });

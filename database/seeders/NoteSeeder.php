@@ -16,7 +16,7 @@ class NoteSeeder extends Seeder
     {
         DB::table('notes')->delete();
 
-        $count = 25;
+        $count = 100;
         Note::factory()->create();
         for ($i = 1; $i < $count; $i++) {
             Note::factory()->withParent(mt_rand(1, $i))->create();

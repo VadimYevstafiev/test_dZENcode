@@ -37,7 +37,8 @@ class NoteRepository implements NoteRepositoryContract
     public function getHeads(int $perPage, Request $request): array
     {   
         $params = $request->all();
-        $id = empty($params) ? 11 : array_key_first($params);
+        $id = $params['id'] ?? 11;
+       // dd($id);
         list($column, $key) = str_split($id);
         switch($column) {
             case 1:
@@ -63,12 +64,7 @@ class NoteRepository implements NoteRepositoryContract
             ->select( 'users.user_name', 'users.email', 'notes.created_at')
             ->orderBy($column, $key)
             ->paginate($perPage);
-        $heads = [
-            'User Name' => ['11', '12'],
-            'Email' => ['21', '22'],
-            'Created at' => ['31', '32']
-        ];
-        return array($heads, $items, $id);
+        return array($items, $id);
     }
 
     public function paginate(int $perPage, Request $request): LengthAwarePaginator

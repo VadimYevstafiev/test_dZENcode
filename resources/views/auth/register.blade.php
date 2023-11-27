@@ -19,8 +19,7 @@
         <!-- Home Page -->
         <div class="mt-4">
             <x-input-label for="home_page" :value="__('Home Page')" />
-            <x-text-input id="home_page" class="block mt-1 w-full" type="text" name="home_page" :value="old('home_page')" required autocomplete="home_page" />
-            <x-input-error :messages="$errors->get('home_page')" class="mt-2" />
+            <x-text-input id="home_page" class="block mt-1 w-full" type="text" name="home_page" :value="old('home_page')"  />
         </div>
 
         <!-- Password -->

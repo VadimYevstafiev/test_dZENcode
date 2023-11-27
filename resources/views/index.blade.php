@@ -1,13 +1,7 @@
 <x-app-layout>
-
-    <div class="w-full px-6 py-6 mx-auto">
-        <!-- table 1 -->
-        <div class="flex flex-wrap -mx-3">
-            <div class="flex-none w-full max-w-full px-3">
-                <div
-                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0">
+<div class="flex-1 h-screen overflow-hidden">
+        <div class="flex-1">           
+            <div class="h-screen overflow-y-auto p-4 pb-36"> 
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                 <tr>
@@ -17,7 +11,11 @@
                                             </div>
                                             <div class="w-1/4 mr-auto float-right">
                                                 @foreach(array("11", "12") as $number)
-                                                    <x-selector :number="$number"/>
+                                                    @if ($number == $id)
+                                                        <x-checked-selector :number="$number"/>
+                                                    @else
+                                                        <x-selector :number="$number"/>
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </th>
@@ -27,7 +25,11 @@
                                             </div>
                                             <div class="w-1/4 mr-auto float-right">
                                                 @foreach(array("21", "22") as $number)
-                                                    <x-selector :number="$number"/>
+                                                    @if ($number == $id)
+                                                        <x-checked-selector :number="$number"/>
+                                                    @else
+                                                        <x-selector :number="$number"/>
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </th>
@@ -37,8 +39,13 @@
                                             </div>
                                             <div class="w-1/4 mr-auto float-right">
                                                 @foreach(array("31", "32") as $number)
-                                                    <x-selector :number="$number"/>
+                                                    @if ($number == $id)
+                                                        <x-checked-selector :number="$number"/>
+                                                    @else
+                                                        <x-selector :number="$number"/>
+                                                    @endif
                                                 @endforeach
+                                            </div>
                                         </th>
 
                                 </tr>
@@ -71,9 +78,6 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
                 {{ $items->links() }}
             </div>
         </div>
@@ -82,8 +86,7 @@
     <script>
         function changeRadio(id)
         {
-            let url = "{{ route('index', ':id') }}";
-            url = url.replace(':id', id);
+            url = `${window.location.href}?id=${id}`;
             document.location.href=url;
         }
 

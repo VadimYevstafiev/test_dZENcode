@@ -11,14 +11,15 @@ class NotesController extends Controller
 {
     public function index(Request $request, NoteRepositoryContract $repository)
     {
-        list($heads, $items, $id) = $repository->getHeads(5, $request);
+        //dd($request);
+        list($items, $id) = $repository->getHeads(25, $request);
 
-        return view('index', compact('heads', 'items', 'id'));
+        return view('index', compact('items', 'id'));
     }
 
     public function notes(Request $request, NoteRepositoryContract $repository)
     {
-        $notes = $repository->paginate(5, $request);
+        $notes = $repository->paginate(25, $request);
 
         return view('notes', compact('notes'));
     }
