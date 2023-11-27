@@ -12,11 +12,21 @@
 
 Для того, чтобы развернуть проект, необходимо:
 1. Открыть терминал, в корневой папке проекта.
-2. В терминале ввести команды:
-    ./vendor/bin/sail up -d --build
+2. Скопировать файл .env.example и переименовать в .env 
+    Проследить чтобы в имени .env не было начальных или конечных пробелов.
+3. Установить composer (если он не установлен) по руководству https://getcomposer.org/download/.
+4. Установить в корневую папку laravel sail (https://laravel.com/docs/10.x/sail#main-content). В терминале ввести команды:
+    composer require laravel/sail --dev
+    php artisan sail:install
+
+    При запросе "Which services would you like to install?" выбрать mysql
+
+5. В терминале ввести команды:
+
     ./vendor/bin/sail artisan key:generate
     ./vendor/bin/sail artisan storage:link
+    ./vendor/bin/sail up -d --build
     ./vendor/bin/sail artisan migrate --seed
     ./vendor/bin/sail npm run dev (рекомендуется в другой вкладке)
-3. В браузере открыть http://localhost/.
-4. Зарегистрироваться ('Register') или залогиниться (email 'test@test.com', пароль 'test1234').
+6. В браузере открыть http://localhost/.
+7. Зарегистрироваться ('Register') или залогиниться (email 'test@test.com', пароль 'test1234').
